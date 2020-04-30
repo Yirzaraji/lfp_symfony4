@@ -7,10 +7,17 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  * @ORM\HasLifecycleCallbacks()
+ * @UniqueEntity(
+ * fields={"email"},
+ * message="Email already taken"
+ * )
+ * @
  */
 class User implements UserInterface
 {
@@ -23,21 +30,25 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank()
      */
     private $firstName;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Required field")
      */
     private $lastName;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Email(message="Invalid email format")
      */
     private $email;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\Url(message="Insert your picture Url here")
      */
     private $picture;
 
@@ -47,12 +58,21 @@ class User implements UserInterface
     private $hash;
 
     /**
+     * EqualTo compare le mot de passe entrée dans le register form hash est en faite le password non hashé il y a pas de connection bdd ici
+     *
+     * @Assert\EqualTo(propertyPath="hash", message="You passwords do not match")
+     */
+    public $passwordConfirm;
+
+    /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Length(min=10, minMessage="We ask you 10 characters minimum")
      */
     private $introduction;
 
     /**
      * @ORM\Column(type="text")
+     * @Assert\Length(min=100, minMessage="We ask you 100 characters minimum")
      */
     private $description;
 
@@ -65,6 +85,11 @@ class User implements UserInterface
      * @ORM\OneToMany(targetEntity="App\Entity\Ad", mappedBy="author")
      */
     private $ads;
+    
+    public function getFullname(){
+
+        return "{$this->firstName} {$this->lastName}";
+    }
 
         /**
      * Permet d'initialiser le SLug de slugify

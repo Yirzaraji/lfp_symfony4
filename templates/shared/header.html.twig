@@ -14,16 +14,43 @@
             </li>
         </ul>
         <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
-                <a href="" class="nav-link">Mon compte</a>
-            </li>
+            {# Si utilisateur logged in ou Out affiche moi tel ou tel contenu #}
+            {% if app.user %}
+
+            {# {{ dump(app.user) }} #}
+                <li class="nav-item dropdown">
+                    <a href="#" class="nav-link" id="accountDropdownLink" data-toggle="dropdown">
+                    <img src="{{ app.user.picture }}" alt="avatar de {{ app.user.fullName }}" class="avatar avatar-mini">
+                    {{ app.user.fullName }}
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="accountDropDownLink">
+                        <a href="{{ path('ads_create') }}" class="dropdown-item">Add...</a>
+                        <div class="dropdown-divider"></div>
+                        <a href="{{ path('account_index') }}" class="dropdown-item">My account</a>
+                        <a href="{{ path('account_profile') }}" class="dropdown-item">Edit profile</a>
+                        {# dropdown divider pour fair une petite separation visuelle #}
+                        <div class="dropdown-divider"></div>
+                        <a href="{{ path('account_logout') }}" class="dropdown-item">My account</a>
+                    </div>
+
+                </li>               
+            {% else %}
+
+                <li class="nav-item">
+                    <a href="{{ path('account_register') }}" class="nav-link">Subscribe</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ path('account_login') }}" class="nav-link">Connection</a>
+                </li>
+                
+            {% endif %}
         </ul>
     </div>
 </nav>
 
 {# {{ dump(app.flashes) }} #}
 {# label = key et message = valeur #}
-{% for label, message in app.flashes %}
+{% for label, messages in app.flashes %}
     <div class="container">
         <div class="alert alert-{{ label }}">
             {% for message in messages %}

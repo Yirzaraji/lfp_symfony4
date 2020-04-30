@@ -10,34 +10,8 @@
 
    {#  la variable ads est relier au controller Adcontroller.php #}
     {% for annonce in ads %}
-    
-        {# stocke moi l'url vers l'annonce dans la variable urlAnnonce #}
-        {% set urlAnnonce = path('ads_show', {'slug': annonce.slug}) %}
-
-        <div class="col-md-4">
-            <div class="card bg-light mb-3">
-                <div class="card-header text-center">
-                    {{ annonce.rooms }} chambres, <strong>{{ annonce.price }} Euros / nuit</strong>
-                    <small></br>Pas encore noté</small>
-                </div>
-                <a href="{{ urlAnnonce }}">
-                    <img src="{{ annonce.coverImage }}" alt="" style="height: 200px; width:100%; display:block;">
-                </a>
-                <div class="card-body">
-                    <h4 class="card-title">
-                     <a href="{{ urlAnnonce }}">
-                      {{ annonce.title }}!
-                     </a>
-                    </h4>
-                <p class="card-text">
-                    {{ annonce.introduction }}
-                </p>
-                    <a href="{{ urlAnnonce }}" 
-                    class="btn btn-secondary">En savoir plus
-                    </a>
-                </div>
-            </div>
-        </div>               
+        {# Include de la Loop des annonces #}
+        {% include 'ad/_annonce.html.twig' %} 
     {% endfor %}
 
 </div>{# end row #}

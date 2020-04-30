@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ user.fullName }}{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-3 text-center">
+                <img src="{{ user.picture }}" alt="{{ user.fullName}}" class="avatar mb-3">
+                <br>
+                <span class="badge badge-primary">{{ user.ads | length }} annonces</span>
+            </div>
+            <div class="col-9">
+                <h1>{{ user.fullName}}</h1>
+                {# {{ dump(user, app.user) }} #}
+                {% if user is same as (app.user) %}
+                    <div class="mt-3">
+                    <a href="{{ path('account_profile') }}" class="btn btn-primary mb-2 mr-2">Edit your profil</a>
+                    </div>
+                {% endif %}
+
+                {{ user.description | raw }}
+                <hr>
+                <h2>Les annonces de {{ user.fullName}}</h2>          
+            </div>
+        </div>
+
+        <div class="row">            
+            {% if user.ads | length > 0 %}
+                {% for annonce in user.ads %}
+                    {# Include de la Loop des annonces #}
+                    {% include 'ad/_annonce.html.twig' %}         
+                {% endfor %}
+            {% else %}
+
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
