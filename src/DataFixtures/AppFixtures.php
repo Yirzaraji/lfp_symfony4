@@ -3,6 +3,7 @@
 namespace App\DataFixtures;
 
 use App\Entity\Ad;
+use App\Entity\DynamicColor;
 use App\Entity\Image;
 use App\Entity\Role;
 use App\Entity\User;
@@ -25,6 +26,11 @@ class AppFixtures extends Fixture
     {
         //load de la librairie faker pour generer du faux contenu
         $faker = Factory::create('FR-fr');
+
+        //Genere une couleur pour entity dynamic color
+        $color = new DynamicColor();
+        $color->setColor('#ff004d');
+        $manager->persist($color);
 
         // Creer un role
         $adminRole = new Role();
@@ -49,7 +55,7 @@ class AppFixtures extends Fixture
         for ($i = 1; $i <= 10; $i++) {
             $user = new User();
 
-            $genre = $faker->randomElement($genres);
+            $genres = $faker->randomElement($genres);
 
             $picture = 'https://randomuser.me/api/portraits/';
             $pictureId = $faker->numberBetween(1, 99) . '.jpg';

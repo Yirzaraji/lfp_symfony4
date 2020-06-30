@@ -1,0 +1,80 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon app{% endblock %}
+
+{% block header %}<h2>Mon petit H2</h2>{% endblock %}
+
+{% block body %}
+
+<div class="container">
+
+{{ form_start(form) }}
+
+
+
+    <p>
+    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseClients" aria-expanded="false" aria-controls="collapseExample">
+        Clients
+    </button>
+    <div class="collapse" id="collapseClients">
+        <div class="card card-body">                      
+            {{ form_widget(form.adresse) }}    
+        </div>
+        <div class="card card-body"> 
+            {{ form_widget(form.ville) }}           
+        </div>
+        <div class="card card-body">      
+            {{ form_widget(form.nom_client) }} 
+        </div>
+        <div class="card card-body">        
+            {{ form_widget(form.prenom) }}     
+        </div>
+        <div class="card card-body">
+            {{ form_widget(form.telephone) }}
+        </div>
+    </div>
+    </p>
+
+    <p>
+    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseProduits" aria-expanded="false" aria-controls="collapseExample">
+        produits
+    </button>
+    <div class="collapse" id="collapseProduits">
+        <div class="card card-body">                      
+            {{ form_widget(form.nom_produit) }}    
+        </div>
+        <div class="card card-body"> 
+            {{ form_widget(form.interval) }}           
+        </div>
+        <div class="card card-body">      
+            {{ form_widget(form.product_code) }} 
+        </div>
+        <div class="card card-body">        
+            {{ form_widget(form.rubriques) }}     
+        </div>
+    </div>
+    </p>
+
+    <p>
+    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseVentes" aria-expanded="false" aria-controls="collapseExample">
+        Ventes
+    </button>
+    <div class="collapse" id="collapseVentes">
+        <div class="card card-body">                      
+            {{ form_widget(form.ca_average) }}    
+        </div>
+        <div class="card card-body"> 
+            {{ form_widget(form.ca_total) }}           
+        </div>
+        <div class="card card-body">      
+            {{ form_widget(form.commandes) }} 
+        </div>
+    </div>
+    </p>
+    {# <input type="color" name="changeColor"> #}
+    <button type="submit" class="btn btn-primary">Envoyer</button>
+
+{{ form_end(form) }}
+
+</div>
+{% endblock %}

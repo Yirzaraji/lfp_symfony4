@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Controller\appcolorController;
 use App\Entity\Ad;
 use App\Entity\DynamicColor;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -55,6 +56,7 @@ class AdController extends appcolorController
      * ajoute moi une annonce
      *
      * @Route("/ads/ajouter", name="ads_create")
+     * @IsGranted("ROLE_USER")
      *
      * @return Response
      */

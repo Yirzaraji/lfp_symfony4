@@ -3,12 +3,12 @@
 namespace App\Entity;
 
 use Cocur\Slugify\Slugify;
-use Doctrine\ORM\Mapping as ORM;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
@@ -90,29 +90,30 @@ class User implements UserInterface
      * @ORM\ManyToMany(targetEntity="App\Entity\Role", mappedBy="users")
      */
     private $userRoles;
-    
-    public function getFullname(){
+
+    public function getFullname()
+    {
 
         return "{$this->firstName} {$this->lastName}";
     }
 
-        /**
+    /**
      * Permet d'initialiser le SLug de slugify
-     * 
+     *
      * J'ai rien compris a ce truc la go voir la doc ORM
      * @ORM\PrePersist
      * @ORM\PreUpdate
-     * 
+     *
      */
-    public function initializeSlug(){
-        if(empty($this->slug)){
+    public function initializeSlug()
+    {
+        if (empty($this->slug)) {
             $slugify = new Slugify();
-            $this->slug = $slugify->slugify($this->firstName.''.$this->lastName);
+            $this->slug = $slugify->slugify($this->firstName . '' . $this->lastName);
 
         }
 
     }
-
 
     public function __construct()
     {
@@ -252,24 +253,53 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getRoles(){
-        return['ROLE_USER'];
+    public function getRoles()
+    {
+        //la variable $roles est defini seulement a la connexion de l'utilisateur
+        //toArray est une feature de doctrine array collection permettant plus d'option sur les tableaux
+        //userRoles retourne un tableau a partir de la db listing des roles, Voir construct
+        $roles = $this->userRoles->toArray();
+        dump($roles);
+
+        //la fonction map() est arbitraire elele permet de retourner une string
+        $roles = $this->userRoles->map(function ($role) {
+            return $role->getTitle();
+        })->toArray();
+
+        dump($roles);
+
+        $roles[] = 'ROLE_USER';
+
+        return $roles;
+
+        /*  $roles = $this->$userRoles->map(function ($role) {
+    return $role->getTitle();
+    })->toArray();
+
+    $roles[] = 'ROLE_USER';
+    dump($roles);
+    return $roles;
+     */
 
     }
 
-    public function getPassword(){
+    public function getPassword()
+    {
         return $this->hash;
 
     }
 
-    public function getSalt(){}
+    public function getSalt()
+    {}
 
-    public function getUsername(){
+    public function getUsername()
+    {
         return $this->email;
 
     }
 
-    public function eraseCredentials(){}
+    public function eraseCredentials()
+    {}
 
     /**
      * @return Collection|Role[]
