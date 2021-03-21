@@ -48,7 +48,7 @@ class HomeController extends appcolorController
      * @Route("/", name="homepage")
      *
      */
-    public function dynamic_color()
+    public function dynamiccolor()
     {
 
         /* appcolorController ma custom classe qui contient la query sql
@@ -67,7 +67,7 @@ class HomeController extends appcolorController
 
     /**
      * allow you to change templating color
-     * @route("/admin", name="admin_form")
+     * @route("/admin", name="adminform")
      * @return response
      */
     public function createFormColor(Request $request)

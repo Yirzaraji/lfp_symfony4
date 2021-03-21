@@ -41,7 +41,7 @@ class AppFixtures extends Fixture
         $adminUser->setFirstName('Yirzaraji')
             ->setLastName('Remi')
             ->setEmail('not.iremy@gmail.com')
-            ->setHash($this->encoder->encodePassword($adminUser, 'password'))
+            ->setHash($this->encoder->encodePassword($adminUser, 'origins'))
             ->setPicture('https://randomuser.me/api/portraits/women/77.jpg')
             ->setIntroduction($faker->sentence())
             ->setDescription('<p>' . join('<p></p>', $faker->paragraphs(3)) . '</p>')
@@ -50,12 +50,12 @@ class AppFixtures extends Fixture
 
         //gere les fake users
         $users = [];
-        $genres = ['male', 'female'];
+        $genres = ["male", "female"];
 
         for ($i = 1; $i <= 10; $i++) {
             $user = new User();
 
-            $genres = $faker->randomElement($genres);
+            $genres = $faker->randomElement([$genres]);
 
             $picture = 'https://randomuser.me/api/portraits/';
             $pictureId = $faker->numberBetween(1, 99) . '.jpg';
@@ -68,7 +68,7 @@ class AppFixtures extends Fixture
 
             $hash = $this->encoder->encodePassword($user, 'password');
 
-            $user->setFirstName($faker->firstname($genres))
+            $user->setFirstName($faker->firstname("male"))
                 ->setlastName($faker->lastname)
                 ->setEmail($faker->email)
                 ->setIntroduction($faker->sentence())
